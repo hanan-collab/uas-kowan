@@ -31,7 +31,19 @@ docker build -t $APP_NAME:latest .
 # Import image to K3s
 echo ""
 echo "Step 2: Importing Docker image to K3s..."
-docker save $APP_NAME:latest | sudo k3s ctr images import -
+# Method 1: Try direct import
+if sudo k3s ctr --address /run/k3s/containerd/containerd.sock --namespace k8s.io images ls &> /dev/null; then
+    echo "Using direct ctr import..."
+    docker save $APP_NAME:latest | sudo k3s ctr --address /run/k3s/containerd/containerd.sock --namespace k8s.io images import -
+else
+    # Method 2: Use file-based import
+    echo "Using file-based import..."
+    docker save $APP_NAME:latest -o /tmp/$APP_NAME.tar
+    sudo ctr -n k8s.io images import /tmp/$APP_NAME.tar 2>/dev/null || \
+        sudo k3s crictl images 2>/dev/null || \
+        echo "Warning: Could not verify image import. Proceeding anyway..."
+    rm -f /tmp/$APP_NAME.tar
+fi
 
 # Update RP_ID and ORIGIN in deployment YAML
 echo ""
