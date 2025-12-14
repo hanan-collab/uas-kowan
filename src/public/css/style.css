@@ -11,7 +11,7 @@ body {
     margin: auto;
     background: white;
     padding: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
 
@@ -25,7 +25,8 @@ h1 {
     margin-bottom: 20px;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="number"] {
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ced4da;
@@ -49,7 +50,28 @@ button:hover {
     background-color: #0056b3;
 }
 
-#message {
+#message,
+#circleMessage {
     color: #dc3545;
     margin: 20px;
+}
+
+.result-box {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 15px;
+    text-align: left;
+}
+
+.result-box h3 {
+    margin-top: 0;
+    color: #007bff;
+    font-size: 18px;
+}
+
+.result-box p {
+    margin: 8px 0;
+    font-size: 14px;
 }
